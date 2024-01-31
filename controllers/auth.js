@@ -101,10 +101,13 @@ exports.postSignup = async (req, res, next) => {
     });
     return res.redirect("../signup");
   }
-  user.save();
-  req.logIn(user);
-  res.redirect("/profile");
- 
+  user.save()
+  req.logIn(user, (err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/profile");
+  })
 };
 
 // User.findOne(
